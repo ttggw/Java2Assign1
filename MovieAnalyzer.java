@@ -170,12 +170,12 @@ public class MovieAnalyzer {
   /**.
    * getTopMovies
    *
-   * @param top_k the # of movies needed
+   * @param topK the # of movies needed
    * @param by sorted by what
    * @return List
    * @author gongyantong
    */
-  public List<String> getTopMovies(int top_k, String by) {
+  public List<String> getTopMovies(int topK, String by) {
     List<Movies> sortedList = new ArrayList<>();
     if ("runtime".equals(by)) {
       sortedList = this.movies.stream()
@@ -188,7 +188,7 @@ public class MovieAnalyzer {
               .sorted(comparator.thenComparing(Movies::getSeriesTitle)).toList();
     }
     List<String> result = new ArrayList<>();
-    for (int i = 0; i < top_k; i++) {
+    for (int i = 0; i < topK; i++) {
       result.add(sortedList.get(i).getSeriesTitle());
     }
     return result;
@@ -197,12 +197,12 @@ public class MovieAnalyzer {
   /**.
    * getTopStars
    *
-   * @param top_k the # of stars needed
+   * @param topK the # of stars needed
    * @param by sorted by what
    * @return List
    * @author gongyantong
    */
-  public List<String> getTopStars(int top_k, String by) {
+  public List<String> getTopStars(int topK, String by) {
     List<String> result = new ArrayList<>();
     if ("rating".equals(by)) {
       Map<String, Double> ratingMap = new HashMap<>();
@@ -226,7 +226,7 @@ public class MovieAnalyzer {
           return o2.getValue().compareTo(o1.getValue());
         }
       });
-      for (int i = 0; i < top_k; i++) {
+      for (int i = 0; i < topK; i++) {
         result.add(ratingList.get(i).getKey());
       }
     } else if ("gross".equals(by)) {
@@ -255,7 +255,7 @@ public class MovieAnalyzer {
           return o2.getValue().compareTo(o1.getValue());
         }
       });
-      for (int j = 0; j < top_k; j++) {
+      for (int j = 0; j < topK; j++) {
         result.add(grossList.get(j).getKey());
       }
     }
@@ -266,17 +266,17 @@ public class MovieAnalyzer {
    * searchMovies
    *
    * @param genre genre
-   * @param min_rating the min IMDB rating
-   * @param max_runtime the max runtime
+   * @param minRating the min IMDB rating
+   * @param maxRuntime the max runtime
    * @return list
    * @author gongyantong
    */
-  public List<String> searchMovies(String genre, float min_rating, int max_runtime) {
+  public List<String> searchMovies(String genre, float minRating, int maxRuntime) {
     List<String> result = new ArrayList<>();
     for (Movies movie : this.movies) {
       if (movie.getGenre().contains(genre)
-              && (movie.getImdbRating() >= min_rating)
-              && movie.getRuntime() <= max_runtime) {
+              && (movie.getImdbRating() >= minRating)
+              && movie.getRuntime() <= maxRuntime) {
         result.add(movie.getSeriesTitle());
       }
     }
